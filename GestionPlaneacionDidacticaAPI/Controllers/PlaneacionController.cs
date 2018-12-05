@@ -36,15 +36,30 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
         }
 
+        //CREAR NUEVA PLANEACION
         [HttpPost]
-        [Route("api/Planeaciones/NewPlaneacion")]
-        public IActionResult Post([FromBody]eva_planeacion planeacion)
+        [Route("api/Planeaciones/NewPlaneacion/")]
+        public IActionResult newPlaneacion([FromBody]eva_planeacion planeacion)
         {
             if (ModelState.IsValid)
             {
                 DBLContext.eva_planeacion.Add(planeacion);
                 DBLContext.SaveChanges();
                 return new ObjectResult("Planeacion insertada");
+            }
+            return BadRequest();
+        }
+
+        //ACTUALIZAR PLANEACIÓN
+        [HttpPut]
+        [Route("api/Planeaciones/UpdatePlaneacion/{id}")]
+        public IActionResult updatePlaneacion(int id, [FromBody]eva_planeacion planeacion)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.Entry<eva_planeacion>(planeacion).State = EntityState.Modified;
+                DBLContext.SaveChanges();
+                return new ObjectResult("Planeación " + id + " modificada");
             }
             return BadRequest();
         }

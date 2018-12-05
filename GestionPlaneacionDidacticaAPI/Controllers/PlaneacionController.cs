@@ -64,6 +64,20 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return BadRequest();
         }
 
+        //ELIMINAR PLANEACIÓN
+        [HttpDelete]
+        [Route("api/Planeaciones/DeletePlaneacion/{id}")]
+        public IActionResult deletePlaneacion(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.eva_planeacion.Remove(DBLContext.eva_planeacion.Find(id));
+                DBLContext.SaveChanges();
+                return new ObjectResult("Planeación " + id + " eliminada");
+            }
+            return BadRequest();
+        }
+
         // Obtiene una planeacion por id
         [HttpGet]
         [Route("api/Planeaciones/{idPlaneacion}")]

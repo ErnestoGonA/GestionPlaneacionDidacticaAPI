@@ -88,7 +88,17 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
         }
 
-        
+        // Obtiene todos los temas de la planeación
+        [HttpGet]
+        [Route("api/Planeaciones/Temas")]
+        public ContentResult GetPlaneacionTemas()
+        {
+            var res = from EPT in DBLContext.eva_planeacion_temas
+                      select EPT;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
         // Obtiene todos los temas de la planeación
         [HttpGet]
         [Route("api/Planeaciones/{id}/Temas")]

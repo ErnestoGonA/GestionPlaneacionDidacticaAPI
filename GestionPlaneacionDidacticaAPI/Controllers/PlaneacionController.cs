@@ -36,7 +36,48 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
         }
 
-        
+        //CREAR NUEVA PLANEACION
+        [HttpPost]
+        [Route("api/Planeaciones/NewPlaneacion/")]
+        public IActionResult newPlaneacion([FromBody]eva_planeacion planeacion)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.eva_planeacion.Add(planeacion);
+                DBLContext.SaveChanges();
+                return new ObjectResult("Planeacion insertada");
+            }
+            return BadRequest();
+        }
+
+        //ACTUALIZAR PLANEACIÓN
+        [HttpPut]
+        [Route("api/Planeaciones/UpdatePlaneacion/{id}")]
+        public IActionResult updatePlaneacion(int id, [FromBody]eva_planeacion planeacion)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.Entry<eva_planeacion>(planeacion).State = EntityState.Modified;
+                DBLContext.SaveChanges();
+                return new ObjectResult("Planeación " + id + " modificada");
+            }
+            return BadRequest();
+        }
+
+        //ELIMINAR PLANEACIÓN
+        [HttpDelete]
+        [Route("api/Planeaciones/DeletePlaneacion/{id}")]
+        public IActionResult deletePlaneacion(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.eva_planeacion.Remove(DBLContext.eva_planeacion.Find(id));
+                DBLContext.SaveChanges();
+                return new ObjectResult("Planeación " + id + " eliminada");
+            }
+            return BadRequest();
+        }
+
         // Obtiene una planeacion por id
         [HttpGet]
         [Route("api/Planeaciones/{idPlaneacion}")]

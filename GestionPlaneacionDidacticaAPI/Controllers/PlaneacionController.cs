@@ -101,8 +101,8 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 
         // Obtiene todos los temas de la planeación
         [HttpGet]
-        [Route("api/Planeaciones/{id}/Temas")]
-        public ContentResult GetPlaneacionTemas(short id)
+        [Route("api/Planeacion/{id}/Temas")]
+        public ContentResult GetPlaneacionTemas(int id)
         {
             var res = from EPT in DBLContext.eva_planeacion_temas
                       where EPT.IdPlaneacion.Equals(id)
@@ -113,14 +113,51 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 
         // Obtiene un tema de la planeación
         [HttpGet]
-        [Route("api/Planeacion/{idPlaneacion}/Temas/{idTema}")]
+        [Route("api/Planeacion/{IdPlaneacion}/Temas/{idTema}")]
         public ContentResult GetPlaneacionTemas(short idPlaneacion,short idTema)
         {
-            var res = from EPT in DBLContext.eva_planeacion_temas
-                      where EPT.IdPlaneacion.Equals(idPlaneacion) && EPT.IdTema.Equals(idTema)
-                      select EPT;
+            var res = DBLContext.eva_planeacion_temas.Find(idTema);
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
+        }
+
+        //CREAR NUEVA PLANEACION
+        [HttpPost]
+        [Route("api/Planeacion/Temas")]
+        public IActionResult PostPlaneacionTemas([FromBody]eva_planeacion_temas Tema)
+        {
+            if (ModelState.IsValid)
+            {
+                short count = DBLContext.eva_planeacion_temas.Max(tema => tema.IdTema);
+                Tema.IdTema = ++count;
+                DBLContext.eva_planeacion_temas.Add(Tema);
+                DBLContext.SaveChanges();
+                return new ObjectResult("Tema insertado");
+            }
+            return BadRequest();
+        }
+
+        [HttpPut]
+        [Route("api/Planeacion/Temas")]
+        public IActionResult PutPlaneacionTemas([FromBody]eva_planeacion_temas Tema)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.Entry<eva_planeacion_temas>(Tema).State = EntityState.Modified;
+                DBLContext.SaveChanges();
+                return new ObjectResult("Actualizado correctamente");
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("api/Planeacion/Temas/{idTema}")]
+        public IActionResult DeletePlaneacionTemas(short idTema)
+        {
+            DBLContext.eva_planeacion_temas.Remove(DBLContext.eva_planeacion_temas.Find(idTema));
+            DBLContext.SaveChanges();
+            return new ObjectResult("Borrado correctamente");
+            
         }
 
     }

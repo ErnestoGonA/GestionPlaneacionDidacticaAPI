@@ -22,3 +22,9 @@ GO
 INSERT INTO eva_planeacion_temas(IdAsignatura,IdPlaneacion,IdTema,DesTema,Observaciones,FechaReg,UsuarioReg,FechaUltMod,UsuarioMod,Activo,Borrado)
 	VALUES (1,1,1,'Servicios web','Servicios web','2018-01-28','Ernesto','2018-01-28','Ernesto','S','N')
 GO
+
+INSERT INTO eva_cat_competencias VALUES (1,1, 'Competencia prolog', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (2,1, 'Competencia dae', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO

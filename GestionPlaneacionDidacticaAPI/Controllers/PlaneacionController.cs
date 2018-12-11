@@ -81,7 +81,7 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         // Obtiene una planeacion por id
         [HttpGet]
         [Route("api/Planeaciones/{idPlaneacion}")]
-        public ContentResult GetPlaneacion(short idPlaneacion)
+        public ContentResult GetPlaneacion(int idPlaneacion)
         {
             var planeacion = DBLContext.eva_planeacion.Find(idPlaneacion);
             string result = JsonConvert.SerializeObject(planeacion);

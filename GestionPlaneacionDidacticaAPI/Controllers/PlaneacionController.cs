@@ -160,5 +160,90 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             
         }
 
+        //Exportar
+        [HttpPost]
+        [Route("api/ExportarPlaneacion")]
+        public IActionResult exportar([FromBody]ImportarExportar source_lista)
+        {
+            if (ModelState.IsValid)
+            {
+                if (source_lista.eva_planeacion != null)
+                {
+                    source_lista.eva_planeacion.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_apoyos != null)
+                {
+                    source_lista.eva_planeacion_apoyos.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_apoyos.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_aprendizaje != null)
+                {
+                    source_lista.eva_planeacion_aprendizaje.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_aprendizaje.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_criterios_evalua != null)
+                {
+                    source_lista.eva_planeacion_criterios_evalua.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_criterios_evalua.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_enseñanza != null)
+                {
+                    source_lista.eva_planeacion_enseñanza.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_enseñanza.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_fuentes != null)
+                {
+                    source_lista.eva_planeacion_fuentes.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_fuentes.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_mejora_desempeño != null)
+                {
+                    source_lista.eva_planeacion_mejora_desempeño.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_mejora_desempeño.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_subtemas != null)
+                {
+                    source_lista.eva_planeacion_subtemas.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_subtemas.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                if (source_lista.eva_planeacion_temas_competencias != null)
+                {
+                    source_lista.eva_planeacion_temas_competencias.ForEach(item =>
+                    {
+                        DBLContext.eva_planeacion_temas_competencias.Update(item);
+                        DBLContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+                    });
+                }
+                DBLContext.SaveChanges();
+                return new ObjectResult("Exportación correcta");
+            }
+            return BadRequest();
+        }
+
     }
 }

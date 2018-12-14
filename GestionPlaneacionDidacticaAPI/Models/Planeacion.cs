@@ -322,4 +322,32 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public string UsuarioMod { get; set; }
         public string Borrado { get; set; }
     }
+    public class ImportarExportar
+    {
+        public ImportarExportar(List<eva_planeacion> eva_planeacion, List<eva_planeacion_temas> eva_planeacion_temas, List<eva_planeacion_temas_competencias> eva_planeacion_temas_competencias, List<eva_planeacion_apoyos> eva_planeacion_apoyos, List<eva_planeacion_aprendizaje> eva_planeacion_aprendizaje, List<eva_planeacion_criterios_evalua> eva_planeacion_criterios_evalua, List<eva_planeacion_enseñanza> eva_planeacion_enseñanza, List<eva_planeacion_fuentes> eva_planeacion_fuentes, List<eva_planeacion_mejora_desempeño> eva_planeacion_mejora_desempeño, List<eva_planeacion_subtemas> eva_planeacion_subtemas)
+        {
+            this.eva_planeacion = eva_planeacion;
+            this.eva_planeacion_temas = eva_planeacion_temas;
+            this.eva_planeacion_temas_competencias = eva_planeacion_temas_competencias;
+            this.eva_planeacion_apoyos = eva_planeacion_apoyos;
+            this.eva_planeacion_aprendizaje = eva_planeacion_aprendizaje;
+            this.eva_planeacion_criterios_evalua = eva_planeacion_criterios_evalua;
+            this.eva_planeacion_enseñanza = eva_planeacion_enseñanza;
+            this.eva_planeacion_fuentes = eva_planeacion_fuentes;
+            this.eva_planeacion_mejora_desempeño = eva_planeacion_mejora_desempeño;
+            this.eva_planeacion_subtemas = eva_planeacion_subtemas;
+        }
+
+        public List<eva_planeacion> eva_planeacion { get; set; }
+        public List<eva_planeacion_temas> eva_planeacion_temas { get; set; }
+        public List<eva_planeacion_temas_competencias> eva_planeacion_temas_competencias { get; set; }
+        public List<eva_planeacion_apoyos> eva_planeacion_apoyos { get; set; }
+        public List<eva_planeacion_aprendizaje> eva_planeacion_aprendizaje { get; set; }
+        public List<eva_planeacion_criterios_evalua> eva_planeacion_criterios_evalua { get; set; }
+        public List<eva_planeacion_enseñanza> eva_planeacion_enseñanza { get; set; }
+        public List<eva_planeacion_fuentes> eva_planeacion_fuentes { get; set; }
+        public List<eva_planeacion_mejora_desempeño> eva_planeacion_mejora_desempeño { get; set; }
+        public List<eva_planeacion_subtemas> eva_planeacion_subtemas { get; set; }
+
+    }
 }

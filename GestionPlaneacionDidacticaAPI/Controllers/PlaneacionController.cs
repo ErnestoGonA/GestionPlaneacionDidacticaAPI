@@ -111,6 +111,18 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
         }
 
+        [HttpGet]
+        [Route("api/Asignatura/{IdAsignatura}/Planeacion/{IdPlaneacion}/Temas")]
+        public ContentResult GetPlaneacionTemasAsignatura(short IdAsignatura, short IdPlaneacion)
+        {
+            var res = from EPT in DBLContext.eva_planeacion_temas
+                      where EPT.IdPlaneacion.Equals(IdPlaneacion)
+                      where EPT.IdAsignatura.Equals(IdAsignatura)
+                      select EPT;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
         // Obtiene un tema de la planeación
         [HttpGet]
         [Route("api/Planeacion/{IdPlaneacion}/Temas/{idTema}")]

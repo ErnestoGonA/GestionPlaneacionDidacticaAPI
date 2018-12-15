@@ -188,12 +188,13 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 
         // Obtiene todos los subtemas de temas de la planeación
         [HttpGet]
-        [Route("api/Planeacion/{idPlaneacion}/Subtemas/{idTema}")]
-        public ContentResult GetPlaneacionSubtemas(short idPlaneacion,short idTema)
+        [Route("api/Planeacion/{idPlaneacion}/Temas/{idTema}/Subtemas/{idAsignatura}")]
+        public ContentResult GetPlaneacionSubtemas(short idPlaneacion,short idTema, short idAsignatura)
         {
             var res = from EPT in DBLContext.eva_planeacion_subtemas
                       where EPT.IdPlaneacion.Equals(idPlaneacion)
                       where EPT.IdTema.Equals(idTema)
+                      where EPT.IdAsignatura.Equals(idAsignatura)
                       select EPT;
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
@@ -215,12 +216,13 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 
         // Obtiene un tema de la planeación
         [HttpGet]
-        [Route("api/Planeacion/{idPlaneacion}/Subtemas/{idTema}/{idSubtema}")]
-        public ContentResult GetPlaneacionSubtemas(short idPlaneacion, short idTema, short idSubtema)
+        [Route("api/Planeacion/{idPlaneacion}/{idAsignatura}/{idTema}/{idSubtema}")]
+        public ContentResult GetPlaneacionSubtema(short idPlaneacion, short idTema, short idSubtema,short idAsignatura)
         {
             var res = from EPT in DBLContext.eva_planeacion_subtemas
                       where EPT.IdPlaneacion.Equals(idPlaneacion)
                       where EPT.IdTema.Equals(idTema)
+                      where EPT.IdAsignatura.Equals(idAsignatura)
                       where EPT.IdSubtema.Equals(idSubtema)
                       select EPT;
             string result = JsonConvert.SerializeObject(res);

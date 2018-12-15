@@ -200,9 +200,11 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                short count = DBLContext.eva_planeacion_apoyos.Max(apoyo => apoyo.IdPlaneacionApoyos);
+                Apoyo.IdPlaneacionApoyos = ++count;
                 DBLContext.eva_planeacion_apoyos.Add(Apoyo);
                 DBLContext.SaveChanges();
-                return new ObjectResult("Planeacion apoyos insertada");
+                return new ObjectResult("Apoyo insertado");
             }
             return BadRequest();
         }

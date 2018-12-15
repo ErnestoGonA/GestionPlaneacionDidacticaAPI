@@ -73,9 +73,13 @@ namespace GestionPlaneacionDidacticaAPI.Models
     }
     public class eva_planeacion_apoyos
     {
+        [Key]
+        [Required]
+        public Int16 IdPlaneacionApoyos { get; set; }
         public Int16 IdAsignatura { get; set; }
         public int IdPlaneacion { get; set; }
         public Int16 IdApoyoDidactico { get; set; }
+        public string Observaciones { get; set; }
         public DateTime FechaReg { get; set; }
         public string UsuarioReg { get; set; }
         public DateTime FechaUltMod { get; set; }
@@ -349,5 +353,28 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public List<eva_planeacion_mejora_desempeño> eva_planeacion_mejora_desempeño { get; set; }
         public List<eva_planeacion_subtemas> eva_planeacion_subtemas { get; set; }
 
+
+    public class eva_cat_asignaturas
+    {
+        [Key]
+        [Required]
+        public Int16 IdAsignatura { get; set; }
+        public string ClaveAsignatura { get; set; }
+        public string DesAsignatura { get; set; }
+        public string Matricula { get; set; }
+        public string Actual { get; set; }
+        public DateTime FechaPlanEstudios { get; set; }
+        public string NombreCorto { get; set; }
+        public string Creditos { get; set; }
+        public Int16 IdTipoGenAsignatura { get; set; }
+        public Int16 IdGenAsignatura { get; set; }
+        public Int16 IdTipoGenNivelEscolar { get; set; }
+        public Int16 IdGenNivelEscolar { get; set; }
+        public DateTime FechaReg { get; set; }
+        public string UsuarioReg { get; set; }
+        public DateTime FechaUltMod { get; set; }
+        public string UsuarioMod { get; set; }
+        public string Activo { get; set; }
+        public string Borrado { get; set; }
     }
 }

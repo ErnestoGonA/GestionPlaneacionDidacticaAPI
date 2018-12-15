@@ -226,17 +226,15 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         }
 
 
-        // Obtiene un tema de la planeación
+        // Obtiene un Subtema de la planeación
         [HttpGet]
         [Route("api/Planeacion/{idPlaneacion}/{idAsignatura}/{idTema}/{idSubtema}")]
         public ContentResult GetPlaneacionSubtema(short idPlaneacion, short idTema, short idSubtema,short idAsignatura)
         {
-            var res = from EPT in DBLContext.eva_planeacion_subtemas
-                      where EPT.IdPlaneacion.Equals(idPlaneacion)
-                      where EPT.IdTema.Equals(idTema)
-                      where EPT.IdAsignatura.Equals(idAsignatura)
-                      where EPT.IdSubtema.Equals(idSubtema)
-                      select EPT;
+            var res = DBLContext.eva_planeacion_subtemas.Where(x=>x.IdSubtema == idSubtema)
+                                                        .Where(x => x.IdTema == idTema)
+                                                        .Where(x => x.IdPlaneacion == idPlaneacion)
+                                                        .Where(x => x.IdAsignatura == idAsignatura).First();
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
         }

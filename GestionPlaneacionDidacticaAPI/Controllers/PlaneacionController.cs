@@ -160,5 +160,75 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             
         }
 
+        // Obtiene todos los apoyos de la planeación
+        [HttpGet]
+        [Route("api/Planeaciones/Apoyos")]
+        public ContentResult GetPlaneacionApoyos()
+        {
+            var res = from EPA in DBLContext.eva_planeacion_apoyos
+                      select EPA;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        // Obtiene todos los temas de la planeación
+        [HttpGet]
+        [Route("api/Planeacion/{id}/Apoyos")]
+        public ContentResult GetPlaneacionApoyos(int id)
+        {
+            var res = from EPA in DBLContext.eva_planeacion_apoyos
+                      where EPA.IdPlaneacion.Equals(id)
+                      select EPA;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        // Obtiene un apoyo de la planeación
+        [HttpGet]
+        [Route("api/Planeacion/{idPlaneacion}/Apoyos/{idPlaneacionApoyos}")]
+        public ContentResult GetPlaneacionApoyos(short idPlaneacion, short idPlaneacionApoyos)
+        {
+            var res = DBLContext.eva_planeacion_apoyos.Find(idPlaneacionApoyos);
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        //CREAR NUEVA PLANEACION APOYO
+        [HttpPost]
+        [Route("api/Planeacion/Apoyos")]
+        public IActionResult PostPlaneacionApoyos([FromBody]eva_planeacion_apoyos Apoyo)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.eva_planeacion_apoyos.Add(Apoyo);
+                DBLContext.SaveChanges();
+                return new ObjectResult("Planeacion apoyos insertada");
+            }
+            return BadRequest();
+        }
+
+        [HttpPut]
+        [Route("api/Planeacion/Apoyos")]
+        public IActionResult PutPlaneacionApoyos([FromBody]eva_planeacion_apoyos Apoyos)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.Entry<eva_planeacion_apoyos>(Apoyos).State = EntityState.Modified;
+                DBLContext.SaveChanges();
+                return new ObjectResult("Actualizado correctamente");
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("api/Planeacion/Apoyos/{idPlaneacionApoyos}")]
+        public IActionResult DeletePlaneacionApoyos(short idPlaneacionApoyos)
+        {
+            DBLContext.eva_planeacion_apoyos.Remove(DBLContext.eva_planeacion_apoyos.Find(idPlaneacionApoyos));
+            DBLContext.SaveChanges();
+            return new ObjectResult("Borrado correctamente");
+
+        }
+
     }
 }

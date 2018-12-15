@@ -78,6 +78,7 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public Int16 IdAsignatura { get; set; }
         public int IdPlaneacion { get; set; }
         public Int16 IdApoyoDidactico { get; set; }
+        public string Observaciones { get; set; }
         public DateTime FechaReg { get; set; }
         public string UsuarioReg { get; set; }
         public DateTime FechaUltMod { get; set; }

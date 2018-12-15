@@ -253,6 +253,9 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
                 }
                 DBLContext.SaveChanges();
                 return new ObjectResult("Exportación correcta");
+            }
+            return BadRequest();
+        }
 
 
         // Obtiene todos los temas de la planeación

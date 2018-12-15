@@ -18,7 +18,11 @@ namespace GestionPlaneacionDidacticaAPI.Data
 
         public DbSet<eva_planeacion> eva_planeacion { get; set; }
         public DbSet<eva_planeacion_temas> eva_planeacion_temas { get; set; }
+        public DbSet<eva_planeacion_subtemas> eva_planeacion_subtemas { get; set; }
+        public DbSet<eva_cat_asignaturas> eva_cat_asignaturas { get; set; }
+        public DbSet<cat_periodos> cat_periodos { get; set; }
         public DbSet<eva_planeacion_apoyos> eva_planeacion_apoyos { get; set; }
+
 
     }
 }

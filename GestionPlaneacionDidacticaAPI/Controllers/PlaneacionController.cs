@@ -160,5 +160,115 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             
         }
 
+
+        // Obtiene todos los temas de la planeación
+        [HttpGet]
+        [Route("api/Planeaciones/Temas/Subtemas")]
+        public ContentResult GetPlaneacionSubtemas()
+        {
+            var res = from EPS in DBLContext.eva_planeacion_subtemas
+                      select EPS;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        // Obtiene todos los subtemas de temas de la planeación
+        [HttpGet]
+        [Route("api/Planeacion/{idPlaneacion}/Subtemas/{idTema}")]
+        public ContentResult GetPlaneacionSubtemas(short idPlaneacion,short idTema)
+        {
+            var res = from EPT in DBLContext.eva_planeacion_subtemas
+                      where EPT.IdPlaneacion.Equals(idPlaneacion)
+                      where EPT.IdTema.Equals(idTema)
+                      select EPT;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        // Obtiene un tema de la planeación
+        [HttpGet]
+        [Route("api/Planeacion/{idPlaneacion}/Subtemas/{idTema}/{idSubtema}")]
+        public ContentResult GetPlaneacionSubtemas(short idPlaneacion, short idTema, short idSubtema)
+        {
+            var res = from EPT in DBLContext.eva_planeacion_subtemas
+                      where EPT.IdPlaneacion.Equals(idPlaneacion)
+                      where EPT.IdTema.Equals(idTema)
+                      where EPT.IdSubtema.Equals(idSubtema)
+                      select EPT;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        //CREAR NUEVA PLANEACION
+        [HttpPost]
+        [Route("api/Planeacion/Temas/Subtema")]
+        public IActionResult PostPlaneacionTemas([FromBody]eva_planeacion_subtemas Tema)
+        {
+            if (ModelState.IsValid)
+            {
+                short count = DBLContext.eva_planeacion_subtemas.Max(tema => tema.IdSubtema);
+                Tema.IdSubtema = ++count;
+                DBLContext.eva_planeacion_subtemas.Add(Tema);
+                DBLContext.SaveChanges();
+                return new ObjectResult("Subtema insertado");
+            }
+            return BadRequest();
+        }
+
+        [HttpPut]
+        [Route("api/Planeacion/Temas/Subtema")]
+        public IActionResult PutPlaneacionSubtemas([FromBody]eva_planeacion_subtemas Tema)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.Entry<eva_planeacion_subtemas>(Tema).State = EntityState.Modified;
+                DBLContext.SaveChanges();
+                return new ObjectResult("Actualizado correctamente");
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("api/Planeacion/Temas/Subtemas/{idSubtema}")]
+        public IActionResult DeletePlaneacionSubtema(short idSubtema)
+        {
+            DBLContext.eva_planeacion_subtemas.Remove(DBLContext.eva_planeacion_subtemas.Find(idSubtema));
+            DBLContext.SaveChanges();
+            return new ObjectResult("Borrado correctamente");
+
+        }
+
+
+        [HttpGet]
+        [Route("api/Planeacion/Asignaturas")]
+        public IActionResult GetAsignaturas()
+        {
+            var res = from ac in DBLContext.eva_cat_asignaturas.ToList()
+                      select new
+                      {
+                          ac.IdAsignatura,
+                          ac.ClaveAsignatura
+                         };
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+
+        }
+
+        [HttpGet]
+        [Route("api/Planeacion/Periodos")]
+        public IActionResult GetPeriodos()
+        {
+            var res = from ac in DBLContext.cat_periodos.ToList()
+                      select new
+                      {
+                          ac.IdPeriodo,
+                          ac.NombreCorto
+                      };
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+
+        }
+
+
     }
 }

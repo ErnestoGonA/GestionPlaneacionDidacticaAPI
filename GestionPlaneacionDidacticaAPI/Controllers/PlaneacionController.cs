@@ -161,6 +161,7 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         }
 
 
+
         // Obtiene todos los temas de la planeación
         [HttpGet]
         [Route("api/Planeaciones/Temas/Subtemas")]
@@ -171,6 +172,19 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
         }
+
+        // Obtiene todos los apoyos de la planeación
+        [HttpGet]
+        [Route("api/Planeaciones/Apoyos")]
+        public ContentResult GetPlaneacionApoyos()
+        {
+            var res = from EPA in DBLContext.eva_planeacion_apoyos
+                      select EPA;
+
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
 
         // Obtiene todos los subtemas de temas de la planeación
         [HttpGet]
@@ -185,6 +199,20 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
         }
 
+        // Obtiene todos los temas de la planeación
+        [HttpGet]
+        [Route("api/Planeacion/{id}/Apoyos")]
+        public ContentResult GetPlaneacionApoyos(int id)
+        {
+            var res = from EPA in DBLContext.eva_planeacion_apoyos
+                      where EPA.IdPlaneacion.Equals(id)
+                      select EPA;
+
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+
         // Obtiene un tema de la planeación
         [HttpGet]
         [Route("api/Planeacion/{idPlaneacion}/Subtemas/{idTema}/{idSubtema}")]
@@ -198,6 +226,17 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
         }
+
+        // Obtiene un apoyo de la planeación
+        [HttpGet]
+        [Route("api/Planeacion/{idPlaneacion}/Apoyos/{idPlaneacionApoyos}")]
+        public ContentResult GetPlaneacionApoyos(short idPlaneacion, short idPlaneacionApoyos)
+        {
+            var res = DBLContext.eva_planeacion_apoyos.Find(idPlaneacionApoyos);
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
 
         //CREAR NUEVA PLANEACION
         [HttpPost]
@@ -215,6 +254,22 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return BadRequest();
         }
 
+        //CREAR NUEVA PLANEACION APOYO
+        [HttpPost]
+        [Route("api/Planeacion/Apoyos")]
+        public IActionResult PostPlaneacionApoyos([FromBody]eva_planeacion_apoyos Apoyo)
+        {
+            if (ModelState.IsValid)
+            {
+                short count = DBLContext.eva_planeacion_apoyos.Max(apoyo => apoyo.IdPlaneacionApoyos);
+                Apoyo.IdPlaneacionApoyos = ++count;
+                DBLContext.eva_planeacion_apoyos.Add(Apoyo);
+                DBLContext.SaveChanges();
+                return new ObjectResult("Apoyo insertado");
+            }
+            return BadRequest();
+        }
+
         [HttpPut]
         [Route("api/Planeacion/Temas/Subtema")]
         public IActionResult PutPlaneacionSubtemas([FromBody]eva_planeacion_subtemas Tema)
@@ -228,6 +283,19 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return BadRequest();
         }
 
+
+        [Route("api/Planeacion/Apoyos")]
+        public IActionResult PutPlaneacionApoyos([FromBody]eva_planeacion_apoyos Apoyos)
+        {
+            if (ModelState.IsValid)
+            {
+                DBLContext.Entry<eva_planeacion_apoyos>(Apoyos).State = EntityState.Modified;
+                DBLContext.SaveChanges();
+                return new ObjectResult("Actualizado correctamente");
+            }
+            return BadRequest();
+        }
+
         [HttpDelete]
         [Route("api/Planeacion/Temas/Subtemas/{idSubtema}")]
         public IActionResult DeletePlaneacionSubtema(short idSubtema)
@@ -235,9 +303,16 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             DBLContext.eva_planeacion_subtemas.Remove(DBLContext.eva_planeacion_subtemas.Find(idSubtema));
             DBLContext.SaveChanges();
             return new ObjectResult("Borrado correctamente");
-
         }
 
+        [Route("api/Planeacion/Apoyos/{idPlaneacionApoyos}")]
+        public IActionResult DeletePlaneacionApoyos(short idPlaneacionApoyos)
+        {
+            DBLContext.eva_planeacion_apoyos.Remove(DBLContext.eva_planeacion_apoyos.Find(idPlaneacionApoyos));
+            DBLContext.SaveChanges();
+            return new ObjectResult("Borrado correctamente");
+
+        }
 
         [HttpGet]
         [Route("api/Planeacion/Asignaturas")]
@@ -268,7 +343,5 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
 
         }
-
-
     }
 }

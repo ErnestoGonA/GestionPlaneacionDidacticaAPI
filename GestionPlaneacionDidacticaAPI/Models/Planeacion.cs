@@ -352,6 +352,7 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public List<eva_planeacion_fuentes> eva_planeacion_fuentes { get; set; }
         public List<eva_planeacion_mejora_desempeño> eva_planeacion_mejora_desempeño { get; set; }
         public List<eva_planeacion_subtemas> eva_planeacion_subtemas { get; set; }
+    }
 
 
     public class eva_cat_asignaturas

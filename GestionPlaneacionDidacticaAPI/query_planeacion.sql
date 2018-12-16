@@ -423,6 +423,7 @@ go
 CREATE TABLE eva_planeacion_fuentes
 ( 
 	Prioridad            smallint  NULL ,
+	Observaciones        varchar(100)  NOT NULL ,
 	FechaReg             datetime  NULL ,
 	UsuarioReg           varchar(20)  NULL ,
 	FechaUltMod          datetime  NULL ,

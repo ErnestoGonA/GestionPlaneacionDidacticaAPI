@@ -1,3 +1,9 @@
+--USE master
+--GO
+
+--DROP DATABASE DB_Planeacion
+--GO
+
 CREATE DATABASE DB_Planeacion
 GO
 
@@ -579,7 +585,7 @@ go
 
 ALTER TABLE cat_estatus
 	ADD CONSTRAINT R_1 FOREIGN KEY (IdTipoEstatus) REFERENCES cat_tipos_estatus(IdTipoEstatus)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -588,7 +594,7 @@ go
 
 ALTER TABLE cat_generales
 	ADD CONSTRAINT R_2 FOREIGN KEY (IdTipoGeneral) REFERENCES cat_tipos_generales(IdTipoGeneral)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -597,7 +603,7 @@ go
 
 ALTER TABLE eva_planeacion
 	ADD CONSTRAINT R_4 FOREIGN KEY (IdAsignatura) REFERENCES eva_cat_asignaturas(IdAsignatura)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -606,7 +612,7 @@ go
 
 ALTER TABLE eva_planeacion
 	ADD CONSTRAINT R_21 FOREIGN KEY (IdPeriodo) REFERENCES cat_periodos(IdPeriodo)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -615,7 +621,7 @@ go
 
 ALTER TABLE eva_planeacion_apoyos
 	ADD CONSTRAINT R_10 FOREIGN KEY (IdPlaneacion,IdAsignatura) REFERENCES eva_planeacion(IdPlaneacion,IdAsignatura)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -624,7 +630,7 @@ go
 
 ALTER TABLE eva_planeacion_apoyos
 	ADD CONSTRAINT R_17 FOREIGN KEY (IdApoyoDidactico) REFERENCES eva_cat_apoyos_didacticos(IdApoyoDidactico)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -633,7 +639,7 @@ go
 
 ALTER TABLE eva_planeacion_aprendizaje
 	ADD CONSTRAINT R_12 FOREIGN KEY (IdAsignatura,IdPlaneacion,IdTema,IdCompetencia) REFERENCES eva_planeacion_temas_competencias(IdAsignatura,IdPlaneacion,IdTema,IdCompetencia)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -642,7 +648,7 @@ go
 
 ALTER TABLE eva_planeacion_aprendizaje
 	ADD CONSTRAINT R_18 FOREIGN KEY (IdActividadAprendizaje) REFERENCES eva_cat_actividades_aprendizaje(IdActividadAprendizaje)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -651,7 +657,7 @@ go
 
 ALTER TABLE eva_planeacion_criterios_evalua
 	ADD CONSTRAINT R_14 FOREIGN KEY (IdAsignatura,IdPlaneacion,IdTema,IdCompetencia) REFERENCES eva_planeacion_temas_competencias(IdAsignatura,IdPlaneacion,IdTema,IdCompetencia)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -660,7 +666,7 @@ go
 
 ALTER TABLE eva_planeacion_enseñanza
 	ADD CONSTRAINT R_13 FOREIGN KEY (IdAsignatura,IdPlaneacion,IdTema,IdCompetencia) REFERENCES eva_planeacion_temas_competencias(IdAsignatura,IdPlaneacion,IdTema,IdCompetencia)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -669,7 +675,7 @@ go
 
 ALTER TABLE eva_planeacion_enseñanza
 	ADD CONSTRAINT R_20 FOREIGN KEY (IdActividadEnseñanza) REFERENCES eva_cat_actividades_enseñanza(IdActividadEnseñanza)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -678,7 +684,7 @@ go
 
 ALTER TABLE eva_planeacion_fuentes
 	ADD CONSTRAINT R_9 FOREIGN KEY (IdPlaneacion,IdAsignatura) REFERENCES eva_planeacion(IdPlaneacion,IdAsignatura)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -687,7 +693,7 @@ go
 
 ALTER TABLE eva_planeacion_fuentes
 	ADD CONSTRAINT R_16 FOREIGN KEY (IdFuente) REFERENCES eva_cat_fuentes_bibliograficas(IdFuente)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -696,7 +702,7 @@ go
 
 ALTER TABLE eva_planeacion_mejora_desempeño
 	ADD CONSTRAINT R_15 FOREIGN KEY (IdTema,IdPlaneacion,IdAsignatura) REFERENCES eva_planeacion_temas(IdTema,IdPlaneacion,IdAsignatura)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -705,7 +711,7 @@ go
 
 ALTER TABLE eva_planeacion_subtemas
 	ADD CONSTRAINT R_6 FOREIGN KEY (IdTema,IdPlaneacion,IdAsignatura) REFERENCES eva_planeacion_temas(IdTema,IdPlaneacion,IdAsignatura)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -714,7 +720,7 @@ go
 
 ALTER TABLE eva_planeacion_temas
 	ADD CONSTRAINT R_5 FOREIGN KEY (IdPlaneacion,IdAsignatura) REFERENCES eva_planeacion(IdPlaneacion,IdAsignatura)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -723,7 +729,7 @@ go
 
 ALTER TABLE eva_planeacion_temas_competencias
 	ADD CONSTRAINT R_7 FOREIGN KEY (IdTema,IdPlaneacion,IdAsignatura) REFERENCES eva_planeacion_temas(IdTema,IdPlaneacion,IdAsignatura)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -732,7 +738,7 @@ go
 
 ALTER TABLE eva_planeacion_temas_competencias
 	ADD CONSTRAINT R_8 FOREIGN KEY (IdCompetencia) REFERENCES eva_cat_competencias(IdCompetencia)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
@@ -741,8 +747,85 @@ go
 
 ALTER TABLE rh_cat_personas
 	ADD CONSTRAINT R_3 FOREIGN KEY (IdInstituto) REFERENCES cat_institutos(IdInstituto)
-		ON DELETE NO ACTION
+		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 go
 
+use DB_Planeacion
+go
+INSERT INTO eva_cat_asignaturas VALUES (1,'DAE', 'APP EMPRESARIALES', '123', '1', '2018-12-01', 'DAE', '20', 3, 3, 4, 1, '2018-12-01', 'Pedro', '2018-12-01', 'Pedro', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_asignaturas VALUES (2,'PROLOG', 'Programación lógica y funcional', '123', '1', '2018-12-01', 'PRO', '20', 3, 3, 4, 1, '2018-12-01', 'Pedro', '2018-12-01', 'Pedro', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_asignaturas VALUES (3,'ABD', 'Administración de base de datos', '123', '1', '2018-12-01', 'ABD', '20', 3, 3, 4, 1, '2018-12-01', 'Pedro', '2018-12-01', 'Pedro', 'S', 'N')
+GO
+
+INSERT INTO cat_periodos VALUES (1, 'Periodo enero-junio', 'ENE-JUN 2018', '2018-01-28', '2018-06-05', 2018, 1, 2, 2, 'EJ18', 180, '2018-12-01', 'Pedro', '2018-12-01', 'Pedro', 'S', 'N')
+GO
+
+INSERT INTO cat_periodos VALUES (2, 'Periodo agosto-diciembre', 'AGO-DIC 2018', '2018-01-28', '2018-06-05', 2018, 1, 2, 2, 'AD18', 180, '2018-12-01', 'Pedro', '2018-12-01', 'Pedro', 'S', 'N')
+GO
+
+INSERT INTO eva_planeacion(IdPlaneacion,ReferenciaNorma,Revision,Actual,PlantillaOriginal,CompetenciaAsignatura,AportacionPerfilEgreso,FechaReg,UsuarioReg,FechaUltMod,UsuarioMod,Activo,Borrado,IdAsignatura,IdPeriodo) 
+ VALUES(1,'ISO','2018','S','S','Empresariales','Empresariales','2018-01-28','Ernesto','2018-01-28','Ernesto','S','N',1,1)
+GO
+
+INSERT INTO eva_planeacion_temas(IdAsignatura,IdPlaneacion,IdTema,DesTema,Observaciones,FechaReg,UsuarioReg,FechaUltMod,UsuarioMod,Activo,Borrado)
+	VALUES (1,1,1,'Servicios web','Servicios web','2018-01-28','Ernesto','2018-01-28','Ernesto','S','N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (1,1, 'Competencia prolog', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (2,1, 'Competencia dae', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_actividades_aprendizaje VALUES (1,'Exposicion en equipo','2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+INSERT INTO eva_cat_actividades_aprendizaje VALUES (2,'Cuestionario','2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+INSERT INTO eva_cat_actividades_aprendizaje VALUES (3,'Investigacion documental','2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+INSERT INTO eva_cat_actividades_aprendizaje VALUES (4,'Debate en clase','2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_planeacion_subtemas VALUES(
+	1,'Introduccion','2018-09-11','Bryan','2018-09-11','Bryan','S','N',1,1,1
+)
+go
+
+INSERT INTO eva_planeacion_subtemas VALUES(
+	2,'Desarrollo','2018-09-11','Bryan','2018-09-11','Bryan','S','N',1,1,1
+)
+go
+
+INSERT INTO eva_planeacion_subtemas VALUES(
+	3,'Aplicacion','2018-09-11','Bryan','2018-09-11','Bryan','S','N',1,1,1
+)
+go
+
+insert into eva_cat_fuentes_bibliograficas values(
+	1,'Intro I','Introducción I','Juan','SA DE CV','2018-09-11','Bryan','2018-09-11','bryan','S','N'
+);
+insert into eva_cat_fuentes_bibliograficas values(
+	2,'Intro II','Introducción II','Juan','SA DE CV','2018-09-11','Bryan','2018-09-11','bryan','S','N'
+);
+
+insert into eva_cat_fuentes_bibliograficas values(
+	3,'Intro III','Introducción III','Juan','SA DE CV','2018-09-11','Bryan','2018-09-11','bryan','S','N'
+);
+
+insert into eva_planeacion_fuentes values (
+	1,'Intro 1','2018-09-11','Bryan','2018-09-11','bryan','S','N',1,1,1
+);
+
+insert into eva_planeacion_fuentes values (
+	2,'Intro 2','2018-09-11','Bryan','2018-09-11','bryan','S','N',1,1,2
+);
+
+insert into eva_planeacion_fuentes values (
+	3,'Intro 3','2018-09-11','Bryan','2018-09-11','bryan','S','N',1,1,3
+);
 

@@ -89,6 +89,7 @@ namespace GestionPlaneacionDidacticaAPI.Models
     }
     public class eva_planeacion_temas_competencias
     {
+        [Key]
         public Int16 IdAsignatura { get; set; }
         public int IdPlaneacion { get; set; }
         public Int16 IdTema { get; set; }
@@ -101,6 +102,21 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public string Activo { get; set; }
         public string Borrado { get; set; }
     }
+    public class eva_cat_competencias
+    {
+        [Key]
+        public int IdCompetencia { get; set; }
+        public Int16 IdTipoCompetencia { get; set; }
+        public string DesCompetencia { get; set; }
+        public string Detalle { get; set; }
+        public DateTime FechaReg { get; set; }
+        public string UsuarioReg { get; set; }
+        public DateTime FechaUltMod { get; set; }
+        public string UsuarioMod { get; set; }
+        public string Activo { get; set; }
+        public string Borrado { get; set; }
+    }
+
     public class eva_planeacion_aprendizaje
     {
         public Int16 IdAsignatura { get; set; }

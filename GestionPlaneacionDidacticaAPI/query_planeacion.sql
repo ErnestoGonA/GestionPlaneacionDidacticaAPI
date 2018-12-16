@@ -1,8 +1,3 @@
---USE master
---GO
-
---DROP DATABASE DB_Planeacion
---GO
 
 CREATE DATABASE DB_Planeacion
 GO

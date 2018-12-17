@@ -10,7 +10,7 @@ namespace GestionPlaneacionDidacticaAPI.Data
 {
     public class AlterDBContext : DbContext
     {
-        public AlterDBContext(DbContextOptions<DBContext> options) : base(options)
+        public AlterDBContext(DbContextOptions<AlterDBContext> options) : base(options)
         {
         }
 

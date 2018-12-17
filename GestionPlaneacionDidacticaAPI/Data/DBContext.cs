@@ -26,8 +26,16 @@ namespace GestionPlaneacionDidacticaAPI.Data
         public DbSet<eva_planeacion_mejora_desempeño> eva_planeacion_mejora_desempeño { get; set; }
         public DbSet<eva_planeacion_subtemas> eva_planeacion_subtemas { get; set; }
         public DbSet<eva_planeacion_temas_competencias> eva_planeacion_temas_competencias { get; set; }
+        public DbSet<eva_cat_competencias> eva_cat_competencias { get; set; }
         public DbSet<eva_cat_asignaturas> eva_cat_asignaturas { get; set; }
         public DbSet<cat_periodos> cat_periodos { get; set; }
+        public DbSet<eva_planeacion_apoyos> eva_planeacion_apoyos { get; set; }
+        public DbSet<eva_planeacion_fuentes> eva_planeacion_fuentes { get; set; }
+        public DbSet<eva_cat_fuentes_bibliograficas> eva_cat_fuentes_bibliograficas { get; set; }
+        public DbSet<eva_cat_apoyos_didacticos> eva_cat_apoyos_didacticos { get; set; }
+        public DbSet<eva_planeacion_enseñanza> eva_planeacion_enseñanza { get; set; }
+        public DbSet<eva_cat_actividades_enseñanza> eva_cat_actividades_enseñanza { get; set; }
+
 
     }
 }

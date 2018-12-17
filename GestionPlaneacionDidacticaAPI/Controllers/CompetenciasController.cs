@@ -36,23 +36,27 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         [Route("api/Asignatura/{IdAsignatura}/Planeacion/{IdPlaneacion}/Temas/{IdTema}/Competencias/{IdCompetencia}")]
         public ContentResult GetPlaneacionTemasCompetencia(short IdAsignatura, int IdPlaneacion, short IdTema,short IdCompetencia)
         {
-            try
-            {
-                var res = from EPT in DBLContext.eva_planeacion_temas_competencias
+            string result;
+            //var respuesta DBLContext.eva_planeacion_fuentes.Where()
+            var res = from EPT in DBLContext.eva_planeacion_temas_competencias
                       where EPT.IdAsignatura.Equals(IdAsignatura)
                       where EPT.IdPlaneacion.Equals(IdPlaneacion)
                       where EPT.IdTema.Equals(IdTema)
                       where EPT.IdCompetencia.Equals(IdCompetencia)
                       select EPT;
-            
-                var result = JsonConvert.SerializeObject(res.Single());
+            try
+            {
+                result = JsonConvert.SerializeObject(res.Single());
                 return Content(result, "application/json");
             }
             catch (Exception e)
             {
-                throw e;
+                eva_planeacion_temas_competencias ras = new eva_planeacion_temas_competencias();
+                ras.IdCompetencia = -1;
+                var result2 = JsonConvert.SerializeObject(ras);
+                return Content(result2, "application/json");
             }
-
+            
         }
 
         [HttpPost]
@@ -98,9 +102,12 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return BadRequest();
         }
 
+
+
+
         [HttpGet]
-        [Route("api/Competencias")]
-        public IActionResult GetFuentesB()
+        [Route("api/CatCompetencias")]
+        public IActionResult GetCatCompetencias()
         {
             var res = from ac in DBLContext.eva_cat_competencias.ToList()
                       select new

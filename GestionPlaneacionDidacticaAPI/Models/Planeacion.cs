@@ -90,10 +90,10 @@ namespace GestionPlaneacionDidacticaAPI.Models
     public class eva_planeacion_temas_competencias
     {
         [Key]
+        public int IdCompetencia { get; set; }
         public Int16 IdAsignatura { get; set; }
         public int IdPlaneacion { get; set; }
         public Int16 IdTema { get; set; }
-        public int IdCompetencia { get; set; }
         public string Observaciones { get; set; }
         public DateTime FechaReg { get; set; }
         public string UsuarioReg { get; set; }

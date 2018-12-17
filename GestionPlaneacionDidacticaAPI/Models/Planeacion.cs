@@ -8,8 +8,8 @@ namespace GestionPlaneacionDidacticaAPI.Models
 {
     public class eva_planeacion
     {
-        [Key]
-        [Required]
+        //[Key]
+        //[Required]
         public int IdPlaneacion { get; set; }
         public Int16 IdAsignatura { get; set; }
         public string ReferenciaNorma { get; set; }
@@ -29,7 +29,6 @@ namespace GestionPlaneacionDidacticaAPI.Models
     public class eva_planeacion_temas
     {
         [Key]
-        [Required]
         public Int16 IdTema { get; set; }
         public Int16 IdAsignatura { get; set; }
         public int IdPlaneacion { get; set; }
@@ -122,6 +121,7 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public int IdPlaneacion { get; set; }
         public Int16 IdTema { get; set; }
         public int IdCompetencia { get; set; }
+        [Key]
         public int IdActividadAprendizaje { get; set; }
         public DateTime FechaReg { get; set; }
         public string UsuarioReg { get; set; }

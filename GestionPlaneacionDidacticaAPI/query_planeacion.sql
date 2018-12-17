@@ -1,4 +1,3 @@
-
 CREATE DATABASE DB_Planeacion
 GO
 
@@ -508,8 +507,6 @@ CREATE TABLE eva_planeacion_temas
 	IdAsignatura         smallint  NOT NULL 
 )
 go
-
-
 
 ALTER TABLE eva_planeacion_temas
 	ADD CONSTRAINT XPKeva_planeacion_temas PRIMARY KEY  CLUSTERED (IdTema ASC,IdPlaneacion ASC,IdAsignatura ASC)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GestionPlaneacionDidacticaAPI.Data;
-using GestionPlaneacionDidacticaAPI.Models;
+using GestionPlaneacionDidacticaAPI.AlterMod;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +12,8 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 {
     public class PlaneacionEnsenanzaController : Controller
     {
-        private readonly DBContext _context;
-        public PlaneacionEnsenanzaController(DBContext context)
+        private readonly AlterDBContext _context;
+        public PlaneacionEnsenanzaController(AlterDBContext context)
         {
             _context = context;
         }

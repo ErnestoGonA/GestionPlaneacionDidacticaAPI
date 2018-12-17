@@ -777,6 +777,24 @@ GO
 INSERT INTO eva_cat_competencias VALUES (2,1, 'Competencia dae', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
 GO
 
+INSERT INTO eva_cat_competencias VALUES (3,1, 'Competencia calculo', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (4,1, 'Competencia poo', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (5,1, 'Competencia fisica', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (6,1, 'Competencia EDD', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (7,1, 'Competencia TAP', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
+INSERT INTO eva_cat_competencias VALUES (8,1, 'Competencia IW', 'Ninguna', '2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
+GO
+
 INSERT INTO eva_cat_actividades_aprendizaje VALUES (1,'Exposicion en equipo','2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
 GO
 INSERT INTO eva_cat_actividades_aprendizaje VALUES (2,'Cuestionario','2018-12-10','Reyes', '2018-12-10', 'Reyes', 'S', 'N')
@@ -823,4 +841,3 @@ insert into eva_planeacion_fuentes values (
 insert into eva_planeacion_fuentes values (
 	3,'Intro 3','2018-09-11','Bryan','2018-09-11','bryan','S','N',1,1,3
 );
-

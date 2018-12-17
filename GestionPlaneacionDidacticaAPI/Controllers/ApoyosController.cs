@@ -46,6 +46,19 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         }
 
         [HttpGet]
+        [Route("api/Asignatura/{idAsignatura}/Planeacion/{idPlaneacion}/Apoyos/{idApoyo}")]
+        public ContentResult GetPlaneacionApoyosId(short idPlaneacion, short idAsignatura, short idApoyo)
+        {
+            var res = from EPT in DBLContext.eva_planeacion_apoyos
+                      where EPT.IdPlaneacion.Equals(idPlaneacion)
+                      where EPT.IdAsignatura.Equals(idAsignatura)
+                      where EPT.IdApoyoDidactico.Equals(idApoyo)
+                      select EPT;
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        [HttpGet]
         [Route("api/Planeacion/{idPlaneacion}/Apoyos/{idAsignatura}/{idApoyo}")]
         public ContentResult GetApoyo(short idPlaneacion, short idAsignatura, short idApoyo)
         {

@@ -158,7 +158,7 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public int IdPlaneacion { get; set; }
         public int IdCompetencia { get; set; }
         public string DesCriterio { get; set; }
-        public float Porcentaje { get; set; }
+        public double Porcentaje { get; set; }
         public DateTime FechaReg { get; set; }
         public string UsuarioReg { get; set; }
         public DateTime FechaUltMod { get; set; }

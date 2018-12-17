@@ -45,13 +45,90 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             {
                 var pla = DBLContext.eva_planeacion.Where(item => item.IdAsignatura == planeacion.IdAsignatura).AsNoTracking();
                 int maxId = 0;
-                if(pla.Count() > 0)
+                if (pla.Count() > 0)
                 {
                     maxId = DBLContext.eva_planeacion.AsNoTracking().Max(item => item.IdPlaneacion);
                 }
                 maxId++;
                 planeacion.IdPlaneacion = maxId;
                 DBLContext.eva_planeacion.Add(planeacion);
+                DBLContext.SaveChanges();
+                return new ObjectResult("Planeacion insertada");
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("api/Planeaciones/GuardarComo/{idPlaneacion}")]
+        public IActionResult guardarComo([FromBody]eva_planeacion planeacion, int idPlaneacion)
+        {
+            if (ModelState.IsValid)
+            {
+                var pla = DBLContext.eva_planeacion.Where(item => item.IdAsignatura == planeacion.IdAsignatura).AsNoTracking();
+                int maxId = 0;
+                if (pla.Count() > 0)
+                {
+                    maxId = DBLContext.eva_planeacion.AsNoTracking().Max(item => item.IdPlaneacion);
+                }
+                maxId++;
+                planeacion.IdPlaneacion = maxId;
+                DBLContext.eva_planeacion.Add(planeacion);
+                var temas = DBLContext.eva_planeacion_temas.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_temas item in temas)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_temas.Add(item);
+                }
+                var subtemas = DBLContext.eva_planeacion_subtemas.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_subtemas item in subtemas)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_subtemas.Add(item);
+                }
+                var enseñanza = DBLContext.eva_planeacion_enseñanza.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_enseñanza item in enseñanza)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_enseñanza.Add(item);
+                }
+                var fuente = DBLContext.eva_planeacion_fuentes.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_fuentes item in fuente)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_fuentes.Add(item);
+                }
+                var apoyo = DBLContext.eva_planeacion_apoyos.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_apoyos item in apoyo)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_apoyos.Add(item);
+                }
+                var competencia = DBLContext.eva_planeacion_temas_competencias.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_temas_competencias item in competencia)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_temas_competencias.Add(item);
+                }
+                var aprendizaje = DBLContext.eva_planeacion_aprendizaje.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_aprendizaje item in aprendizaje)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_aprendizaje.Add(item);
+                }
+                var criterios = DBLContext.eva_planeacion_criterios_evalua.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_criterios_evalua item in criterios)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_criterios_evalua.Add(item);
+                }
+                var mejora = DBLContext.eva_planeacion_mejora_desempeño.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_mejora_desempeño item in mejora)
+                {
+                    item.IdPlaneacion = planeacion.IdPlaneacion;
+                    DBLContext.eva_planeacion_mejora_desempeño.Add(item);
+                }
+
+
                 DBLContext.SaveChanges();
                 return new ObjectResult("Planeacion insertada");
             }
@@ -74,14 +151,68 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 
         //ELIMINAR PLANEACIÓN
         [HttpDelete]
-        [Route("api/Planeaciones/DeletePlaneacion/{id}")]
-        public IActionResult deletePlaneacion(int id)
+        [Route("api/Planeaciones/DeletePlaneacion/{idPlaneacion}")]
+        public IActionResult deletePlaneacion(int idPlaneacion)
         {
             if (ModelState.IsValid)
             {
-                DBLContext.eva_planeacion.Remove(DBLContext.eva_planeacion.Find(id));
+                var temas = DBLContext.eva_planeacion_temas.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_temas item in temas)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_temas.Remove(item);
+                }
+                var subtemas = DBLContext.eva_planeacion_subtemas.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_subtemas item in subtemas)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_subtemas.Remove(item);
+                }
+                var enseñanza = DBLContext.eva_planeacion_enseñanza.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_enseñanza item in enseñanza)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_enseñanza.Remove(item);
+                }
+                var fuente = DBLContext.eva_planeacion_fuentes.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_fuentes item in fuente)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_fuentes.Remove(item);
+                }
+                var apoyo = DBLContext.eva_planeacion_apoyos.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_apoyos item in apoyo)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_apoyos.Remove(item);
+                }
+                var competencia = DBLContext.eva_planeacion_temas_competencias.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_temas_competencias item in competencia)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_temas_competencias.Remove(item);
+                }
+                var aprendizaje = DBLContext.eva_planeacion_aprendizaje.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_aprendizaje item in aprendizaje)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_aprendizaje.Remove(item);
+                }
+                var criterios = DBLContext.eva_planeacion_criterios_evalua.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_criterios_evalua item in criterios)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_criterios_evalua.Remove(item);
+                }
+                var mejora = DBLContext.eva_planeacion_mejora_desempeño.Where(item => item.IdPlaneacion == idPlaneacion).AsNoTracking().ToListAsync().Result;
+                foreach (eva_planeacion_mejora_desempeño item in mejora)
+                {
+                    item.IdPlaneacion = idPlaneacion;
+                    DBLContext.eva_planeacion_mejora_desempeño.Remove(item);
+                }
+                DBLContext.eva_planeacion.Remove(DBLContext.eva_planeacion.Find(idPlaneacion));
                 DBLContext.SaveChanges();
-                return new ObjectResult("Planeación " + id + " eliminada");
+                return new ObjectResult("Planeación " + idPlaneacion + " eliminada");
             }
             return BadRequest();
         }

@@ -43,6 +43,14 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var pla = DBLContext.eva_planeacion.Where(item => item.IdAsignatura == planeacion.IdAsignatura).AsNoTracking();
+                int maxId = 0;
+                if (pla.Count() > 0)
+                {
+                    maxId = DBLContext.eva_planeacion.AsNoTracking().Max(item => item.IdPlaneacion);
+                }
+                maxId++;
+                planeacion.IdPlaneacion = maxId;
                 DBLContext.eva_planeacion.Add(planeacion);
                 DBLContext.SaveChanges();
                 return new ObjectResult("Planeacion insertada");

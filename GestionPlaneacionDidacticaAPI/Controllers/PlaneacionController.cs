@@ -384,8 +384,16 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                short count = DBLContext.eva_planeacion_subtemas.Max(tema => tema.IdSubtema);
-                Tema.IdSubtema = ++count;
+                var sub = DBLContext.eva_planeacion_subtemas.Where(item => item.IdAsignatura == Tema.IdAsignatura && item.IdPlaneacion == Tema.IdPlaneacion).AsNoTracking();
+                short maxId = 0;
+                if (sub.Count() > 0)
+                {
+                    maxId = DBLContext.eva_planeacion_subtemas.AsNoTracking().Max(item => item.IdSubtema);
+                }
+                maxId++;
+                Tema.IdSubtema = maxId;
+                //short count = DBLContext.eva_planeacion_subtemas.Max(tema => tema.IdSubtema);
+                //Tema.IdSubtema = ++count;
                 DBLContext.eva_planeacion_subtemas.Add(Tema);
                 DBLContext.SaveChanges();
                 return new ObjectResult("Subtema insertado");

@@ -131,11 +131,13 @@ namespace GestionPlaneacionDidacticaAPI.Models
     }
     public class eva_planeacion_enseñanza
     {
-        public Int16 IdAsignaturas { get; set; }
+        [Key]
+        public int IdActividadEnseñanza { get; set; }
+        public Int16 IdAsignatura { get; set; }
         public int IdPlaneacion { get; set; }
         public Int16 IdTema { get; set; }
         public int IdCompetencia { get; set; }
-        public int IdActividadEnseñanza { get; set; }
+        
         public DateTime FechaReg { get; set; }
         public DateTime FechaProgramada { get; set; }
         public DateTime FechaRealizada { get; set; }

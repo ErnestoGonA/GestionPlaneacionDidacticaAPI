@@ -27,7 +27,8 @@ namespace GestionPlaneacionDidacticaAPI.Data
         public DbSet<eva_planeacion_fuentes> eva_planeacion_fuentes { get; set; }
         public DbSet<eva_cat_fuentes_bibliograficas> eva_cat_fuentes_bibliograficas { get; set; }
         public DbSet<eva_cat_apoyos_didacticos> eva_cat_apoyos_didacticos { get; set; }
-
+        public DbSet<eva_planeacion_enseñanza> eva_planeacion_enseñanza { get; set; }
+        public DbSet<eva_cat_actividades_enseñanza> eva_cat_actividades_enseñanza { get; set; }
 
 
     }

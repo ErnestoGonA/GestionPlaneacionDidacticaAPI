@@ -80,12 +80,18 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 short count = 0;
-                if(DBLContext.eva_planeacion_temas.Find(Tema.IdTema)!= null)
+                try
                 {
-                    count = DBLContext.eva_planeacion_temas.Max(tema => tema.IdTema);
+                    count = (from tema in DBLContext.eva_planeacion_temas
+                             select tema.IdTema).Max();
                 }
-                
+                catch (Exception e)
+                {
+                    count = 0;
+                }
+
                 Tema.IdTema = ++count;
                 DBLContext.eva_planeacion_temas.Add(Tema);
                 DBLContext.SaveChanges();

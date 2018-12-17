@@ -269,5 +269,21 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
 
         }
+
+        [HttpGet]
+        [Route("api/Planeacion/NombresApoyosDidacticos")]
+        public IActionResult GetFuentesB()
+        {
+            var res = from ac in DBLContext.eva_cat_apoyos_didacticos.ToList()
+                      select new
+                      {
+                          ac.IdApoyoDidactico,
+                          ac.DesApoyoDidactico
+                      };
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+
+        }
+
     }
 }

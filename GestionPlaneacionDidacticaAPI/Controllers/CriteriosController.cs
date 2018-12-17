@@ -21,7 +21,7 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 
         [HttpGet]
         [Route("api/Asignatura/{IdAsignatura}/Planeacion/{IdPlaneacion}/Temas/{IdTema}/Competencias/{IdCompetencia}/Criterios")]
-        public ContentResult GetPlaneacionTemasCompetenciasCriterios(short IdAsignatura, int IdPlaneacion, short IdTema,short IdCompetencia)
+        public ContentResult GetPlaneacionTemasCompetenciasCriterios(short IdAsignatura, int IdPlaneacion, short IdTema,int IdCompetencia)
         {
             var res = from EPT in DBLContext.eva_planeacion_criterios_evalua
                       where EPT.IdAsignatura.Equals(IdAsignatura)
@@ -51,14 +51,16 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         //CREAR NUEVA PLANEACION
         [HttpPost]
         [Route("api/criterio")]
-        public IActionResult PostCriterop([FromBody]eva_planeacion_criterios_evalua Criterio)
+        public IActionResult PostCritero([FromBody]eva_planeacion_criterios_evalua Criterio)
         {
             if (ModelState.IsValid)
             {
                 int count = 0;
-                if (DBLContext.eva_planeacion_criterios_evalua.Find(Criterio.IdCriterio) != null)
+                if ((from criterio in DBLContext.eva_planeacion_criterios_evalua
+                     select criterio).Count()>0)
                 {
-                    count = DBLContext.eva_planeacion_criterios_evalua.Max(criterio => criterio.IdCriterio);
+                    count = (from criterio in DBLContext.eva_planeacion_criterios_evalua
+                             select criterio.IdCriterio).Max();
                 }
 
                 Criterio.IdCriterio = ++count;

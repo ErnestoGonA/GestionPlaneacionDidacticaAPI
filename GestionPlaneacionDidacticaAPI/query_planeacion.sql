@@ -323,7 +323,6 @@ go
 
 CREATE TABLE eva_planeacion_apoyos
 ( 
-	IdPlaneacionApoyos   smallint  NOT NULL,
 	Observaciones        varchar(100)  NOT NULL ,
 	FechaReg             datetime  NULL ,
 	UsuarioReg           varchar(20)  NULL ,
@@ -339,8 +338,9 @@ go
 
 
 
+
 ALTER TABLE eva_planeacion_apoyos
-	ADD CONSTRAINT XPKeva_planeacion_apoyos PRIMARY KEY  CLUSTERED (IdPlaneacionApoyos ASC,IdAsignatura ASC,IdPlaneacion ASC,IdApoyoDidactico ASC)
+	ADD CONSTRAINT XPKeva_planeacion_apoyos PRIMARY KEY  CLUSTERED (IdAsignatura ASC,IdPlaneacion ASC,IdApoyoDidactico ASC)
 go
 
 

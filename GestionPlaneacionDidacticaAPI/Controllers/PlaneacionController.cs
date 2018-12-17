@@ -27,11 +27,11 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         
         // Obtiene todas las planeaciones
         [HttpGet]
-        [Route("api/Planeaciones")]
-        public ContentResult GetPlaneaciones()
+        [Route("api/Planeaciones/{idAsignatura}/{idPeriodo}")]
+        public ContentResult GetPlaneaciones(short idAsignatura,short idPeriodo)
         {
-            var res = from EP in DBLContext.eva_planeacion
-                      select EP;
+            var res = (from EP in DBLContext.eva_planeacion
+                      select EP).Where(item => item.IdAsignatura == idAsignatura && item.IdPeriodo == idPeriodo);
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
         }
@@ -45,7 +45,7 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             {
                 var pla = DBLContext.eva_planeacion.Where(item => item.IdAsignatura == planeacion.IdAsignatura).AsNoTracking();
                 int maxId = 0;
-                if (pla.Count() > 0)
+                if(pla.Count() > 0)
                 {
                     maxId = DBLContext.eva_planeacion.AsNoTracking().Max(item => item.IdPlaneacion);
                 }
@@ -96,89 +96,6 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
         }
 
-        // Obtiene todos los temas de la planeación
-        [HttpGet]
-        [Route("api/Planeaciones/Temas")]
-        public ContentResult GetPlaneacionTemas()
-        {
-            var res = from EPT in DBLContext.eva_planeacion_temas
-                      select EPT;
-            string result = JsonConvert.SerializeObject(res);
-            return Content(result, "application/json");
-        }
-
-        // Obtiene todos los temas de la planeación
-        [HttpGet]
-        [Route("api/Planeacion/{id}/Temas")]
-        public ContentResult GetPlaneacionTemas(int id)
-        {
-            var res = from EPT in DBLContext.eva_planeacion_temas
-                      where EPT.IdPlaneacion.Equals(id)
-                      select EPT;
-            string result = JsonConvert.SerializeObject(res);
-            return Content(result, "application/json");
-        }
-
-        [HttpGet]
-        [Route("api/Asignatura/{IdAsignatura}/Planeacion/{IdPlaneacion}/Temas")]
-        public ContentResult GetPlaneacionTemasAsignatura(short IdAsignatura, short IdPlaneacion)
-        {
-            var res = from EPT in DBLContext.eva_planeacion_temas
-                      where EPT.IdPlaneacion.Equals(IdPlaneacion)
-                      where EPT.IdAsignatura.Equals(IdAsignatura)
-                      select EPT;
-            string result = JsonConvert.SerializeObject(res);
-            return Content(result, "application/json");
-        }
-
-        // Obtiene un tema de la planeación
-        [HttpGet]
-        [Route("api/Planeacion/{IdPlaneacion}/Temas/{idTema}")]
-        public ContentResult GetPlaneacionTemas(short idPlaneacion,short idTema)
-        {
-            var res = DBLContext.eva_planeacion_temas.Find(idTema);
-            string result = JsonConvert.SerializeObject(res);
-            return Content(result, "application/json");
-        }
-
-        //CREAR NUEVA PLANEACION
-        [HttpPost]
-        [Route("api/Planeacion/Temas")]
-        public IActionResult PostPlaneacionTemas([FromBody]eva_planeacion_temas Tema)
-        {
-            if (ModelState.IsValid)
-            {
-                short count = DBLContext.eva_planeacion_temas.Max(tema => tema.IdTema);
-                Tema.IdTema = ++count;
-                DBLContext.eva_planeacion_temas.Add(Tema);
-                DBLContext.SaveChanges();
-                return new ObjectResult("Tema insertado");
-            }
-            return BadRequest();
-        }
-
-        [HttpPut]
-        [Route("api/Planeacion/Temas")]
-        public IActionResult PutPlaneacionTemas([FromBody]eva_planeacion_temas Tema)
-        {
-            if (ModelState.IsValid)
-            {
-                DBLContext.Entry<eva_planeacion_temas>(Tema).State = EntityState.Modified;
-                DBLContext.SaveChanges();
-                return new ObjectResult("Actualizado correctamente");
-            }
-            return BadRequest();
-        }
-
-        [HttpDelete]
-        [Route("api/Planeacion/Temas/{idTema}")]
-        public IActionResult DeletePlaneacionTemas(short idTema)
-        {
-            DBLContext.eva_planeacion_temas.Remove(DBLContext.eva_planeacion_temas.Find(idTema));
-            DBLContext.SaveChanges();
-            return new ObjectResult("Borrado correctamente");
-            
-        }
 
         //Exportar
         [HttpPost]
@@ -265,149 +182,6 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return BadRequest();
         }
 
-
-        // Obtiene todos los temas de la planeación
-        [HttpGet]
-        [Route("api/Planeaciones/Temas/Subtemas")]
-        public ContentResult GetPlaneacionSubtemas()
-        {
-            var res = from EPS in DBLContext.eva_planeacion_subtemas
-                      select EPS;
-            string result = JsonConvert.SerializeObject(res);
-            return Content(result, "application/json");
-        }
-
-        //// Obtiene todos los apoyos de la planeación
-        //[HttpGet]
-        //[Route("api/Planeaciones/Apoyos")]
-        //public ContentResult GetPlaneacionApoyos()
-        //{
-        //    var res = from EPA in DBLContext.eva_planeacion_apoyos
-        //              select EPA;
-
-        //    string result = JsonConvert.SerializeObject(res);
-        //    return Content(result, "application/json");
-        //}
-
-
-        // Obtiene todos los subtemas de temas de la planeación
-        [HttpGet]
-        [Route("api/Planeacion/{idPlaneacion}/Temas/{idTema}/Subtemas/{idAsignatura}")]
-        public ContentResult GetPlaneacionSubtemas(short idPlaneacion,short idTema, short idAsignatura)
-        {
-            var res = from EPT in DBLContext.eva_planeacion_subtemas
-                      where EPT.IdPlaneacion.Equals(idPlaneacion)
-                      where EPT.IdTema.Equals(idTema)
-                      where EPT.IdAsignatura.Equals(idAsignatura)
-                      select EPT;
-            string result = JsonConvert.SerializeObject(res);
-            return Content(result, "application/json");
-        }
-
-        //// Obtiene todos los temas de la planeación
-        //[HttpGet]
-        //[Route("api/Planeacion/{id}/Apoyos")]
-        //public ContentResult GetPlaneacionApoyos(int id)
-        //{
-        //    var res = from EPA in DBLContext.eva_planeacion_apoyos
-        //              where EPA.IdPlaneacion.Equals(id)
-        //              select EPA;
-
-        //    string result = JsonConvert.SerializeObject(res);
-        //    return Content(result, "application/json");
-        //}
-
-
-        // Obtiene un Subtema de la planeación
-        [HttpGet]
-        [Route("api/Planeacion/{idPlaneacion}/{idAsignatura}/{idTema}/{idSubtema}")]
-        public ContentResult GetPlaneacionSubtema(short idPlaneacion, short idTema, short idSubtema,short idAsignatura)
-        {
-            var res = DBLContext.eva_planeacion_subtemas.Where(x=>x.IdSubtema == idSubtema)
-                                                        .Where(x => x.IdTema == idTema)
-                                                        .Where(x => x.IdPlaneacion == idPlaneacion)
-                                                        .Where(x => x.IdAsignatura == idAsignatura).First();
-            string result = JsonConvert.SerializeObject(res);
-            return Content(result, "application/json");
-        }
-
-        //// Obtiene un apoyo de la planeación
-        //[HttpGet]
-        //[Route("api/Planeacion/{idPlaneacion}/Apoyos/{idPlaneacionApoyos}")]
-        //public ContentResult GetPlaneacionApoyos(short idPlaneacion, short idPlaneacionApoyos)
-        //{
-        //    var res = DBLContext.eva_planeacion_apoyos.Find(idPlaneacionApoyos);
-        //    string result = JsonConvert.SerializeObject(res);
-        //    return Content(result, "application/json");
-        //}
-
-
-        //CREAR NUEVA PLANEACION
-        [HttpPost]
-        [Route("api/Planeacion/Temas/Subtema")]
-        public IActionResult PostPlaneacionTemas([FromBody]eva_planeacion_subtemas Tema)
-        {
-            if (ModelState.IsValid)
-            {
-                short count = DBLContext.eva_planeacion_subtemas.Max(tema => tema.IdSubtema);
-                Tema.IdSubtema = ++count;
-                DBLContext.eva_planeacion_subtemas.Add(Tema);
-                DBLContext.SaveChanges();
-                return new ObjectResult("Subtema insertado");
-            }
-            return BadRequest();
-        }
-
-        ////CREAR NUEVA PLANEACION APOYO
-        //[HttpPost]
-        //[Route("api/Planeacion/Apoyos")]
-        //public IActionResult PostPlaneacionApoyos([FromBody]eva_planeacion_apoyos Apoyo)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        short count = DBLContext.eva_planeacion_apoyos.Max(apoyo => apoyo.IdPlaneacionApoyos);
-        //        Apoyo.IdPlaneacionApoyos = ++count;
-        //        DBLContext.eva_planeacion_apoyos.Add(Apoyo);
-        //        DBLContext.SaveChanges();
-        //        return new ObjectResult("Apoyo insertado");
-        //    }
-        //    return BadRequest();
-        //}
-
-        [HttpPut]
-        [Route("api/Planeacion/Temas/Subtema")]
-        public IActionResult PutPlaneacionSubtemas([FromBody]eva_planeacion_subtemas Tema)
-        {
-            if (ModelState.IsValid)
-            {
-                DBLContext.Entry<eva_planeacion_subtemas>(Tema).State = EntityState.Modified;
-                DBLContext.SaveChanges();
-                return new ObjectResult("Actualizado correctamente");
-            }
-            return BadRequest();
-        }
-
-
-        //[Route("api/Planeacion/Apoyos")]
-        //public IActionResult PutPlaneacionApoyos([FromBody]eva_planeacion_apoyos Apoyos)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        DBLContext.Entry<eva_planeacion_apoyos>(Apoyos).State = EntityState.Modified;
-        //        DBLContext.SaveChanges();
-        //        return new ObjectResult("Actualizado correctamente");
-        //    }
-        //    return BadRequest();
-        //}
-
-        [HttpDelete]
-        [Route("api/Planeacion/Temas/Subtemas/{idSubtema}")]
-        public IActionResult DeletePlaneacionSubtema(short idSubtema)
-        {
-            DBLContext.eva_planeacion_subtemas.Remove(DBLContext.eva_planeacion_subtemas.Find(idSubtema));
-            DBLContext.SaveChanges();
-            return new ObjectResult("Borrado correctamente");
-        }
 
         //[Route("api/Planeacion/Apoyos/{idPlaneacionApoyos}")]
         //public IActionResult DeletePlaneacionApoyos(short idPlaneacionApoyos)

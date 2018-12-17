@@ -118,6 +118,7 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
                                                                      where EPT.IdAsignatura.Equals(IdAsignatura)
                                                                      where EPT.IdPlaneacion.Equals(IdPlaneacion)
                                                                      where EPT.IdTema.Equals(IdTema)
+                                                                     where EPT.IdCompetencia.Equals(IdCompetencia)
                                                                      select EPT).Single());
                 DBLContext.SaveChanges();
                 return new ObjectResult("Competencia eliminada");

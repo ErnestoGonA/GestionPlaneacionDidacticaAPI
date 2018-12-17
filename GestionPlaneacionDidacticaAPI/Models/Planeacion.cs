@@ -8,8 +8,8 @@ namespace GestionPlaneacionDidacticaAPI.Models
 {
     public class eva_planeacion
     {
-        //[Key]
-        //[Required]
+        [Key]
+        [Required]
         public int IdPlaneacion { get; set; }
         public Int16 IdAsignatura { get; set; }
         public string ReferenciaNorma { get; set; }

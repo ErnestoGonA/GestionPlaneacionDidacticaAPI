@@ -33,6 +33,29 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         }
 
         [HttpGet]
+        [Route("api/Asignatura/{IdAsignatura}/Planeacion/{IdPlaneacion}/Temas/{IdTema}/Competencia/{IdCompetencia}")]
+        public ContentResult GetPlaneacionTemasCompetencias(short IdAsignatura, int IdPlaneacion, short IdTema, short IdCompetencia)
+        {
+            try
+            {             
+                var res = from EPT in DBLContext.eva_planeacion_temas_competencias
+                          where EPT.IdAsignatura.Equals(IdAsignatura)
+                          where EPT.IdPlaneacion.Equals(IdPlaneacion)
+                          where EPT.IdTema.Equals(IdTema)
+                          where EPT.IdCompetencia.Equals(IdCompetencia)
+                          select EPT;
+            
+                    var result = JsonConvert.SerializeObject(res.Single());
+                    return Content(result, "application/json");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        [HttpGet]
         [Route("api/Asignatura/{IdAsignatura}/Planeacion/{IdPlaneacion}/Temas/{IdTema}/Competencias/{IdCompetencia}")]
         public ContentResult GetPlaneacionTemasCompetencia(short IdAsignatura, int IdPlaneacion, short IdTema,short IdCompetencia)
         {
@@ -95,6 +118,7 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
                                                                      where EPT.IdAsignatura.Equals(IdAsignatura)
                                                                      where EPT.IdPlaneacion.Equals(IdPlaneacion)
                                                                      where EPT.IdTema.Equals(IdTema)
+                                                                     where EPT.IdCompetencia.Equals(IdCompetencia)
                                                                      select EPT).Single());
                 DBLContext.SaveChanges();
                 return new ObjectResult("Competencia eliminada");

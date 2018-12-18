@@ -26,7 +26,21 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         public ContentResult GetPlaneacionApoyos()
         {
             var res = from EPA in DBLContext.eva_planeacion_apoyos
-                      select EPA;
+                      join ap in DBLContext.eva_cat_apoyos_didacticos on EPA.IdApoyoDidactico equals ap.IdApoyoDidactico
+                      select new
+                      {
+                          EPA.IdApoyoDidactico,
+                          EPA.IdAsignatura,
+                          EPA.IdPlaneacion,
+                          EPA.Observaciones,
+                          EPA.UsuarioMod,
+                          EPA.FechaReg,
+                          EPA.FechaUltMod,
+                          EPA.UsuarioReg,
+                          EPA.Activo,
+                          EPA.Borrado,
+                          ap.DesApoyoDidactico
+                      };
 
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
@@ -37,10 +51,28 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         [Route("api/Planeacion/{idPlaneacion}/Apoyos/{idAsignatura}")]
         public ContentResult GetPlaneacionApoyos(short idPlaneacion, short idAsignatura)
         {
-            var res = from EPT in DBLContext.eva_planeacion_apoyos
-                      where EPT.IdPlaneacion.Equals(idPlaneacion)
-                      where EPT.IdAsignatura.Equals(idAsignatura)
-                      select EPT;
+            var res = from EPA in DBLContext.eva_planeacion_apoyos
+                      where EPA.IdPlaneacion.Equals(idPlaneacion)
+                      where EPA.IdAsignatura.Equals(idAsignatura)
+                      join ap in DBLContext.eva_cat_apoyos_didacticos on EPA.IdApoyoDidactico equals ap.IdApoyoDidactico
+                      join asi in DBLContext.eva_cat_asignaturas on EPA.IdAsignatura equals asi.IdAsignatura
+                      join pla in DBLContext.eva_planeacion on EPA.IdPlaneacion equals pla.IdPlaneacion
+                      select new
+                      {
+                          EPA.IdApoyoDidactico,
+                          EPA.IdAsignatura,
+                          EPA.IdPlaneacion,
+                          EPA.Observaciones,
+                          EPA.UsuarioMod,
+                          EPA.FechaReg,
+                          EPA.FechaUltMod,
+                          EPA.UsuarioReg,
+                          EPA.Activo,
+                          EPA.Borrado,
+                          ap.DesApoyoDidactico,
+                          asi.NombreCorto,
+                          pla.ReferenciaNorma
+                      };
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
         }

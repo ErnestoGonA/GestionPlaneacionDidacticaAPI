@@ -27,7 +27,26 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
                       where EPT.IdAsignatura.Equals(IdAsignatura)
                       where EPT.IdPlaneacion.Equals(IdPlaneacion)
                       where EPT.IdTema.Equals(IdTema)
-                      select EPT;
+                      join ap in DBLContext.eva_cat_competencias on EPT.IdCompetencia equals ap.IdCompetencia
+                      join asi in DBLContext.eva_cat_asignaturas on EPT.IdAsignatura equals asi.IdAsignatura
+                      join pla in DBLContext.eva_planeacion on EPT.IdPlaneacion equals pla.IdPlaneacion
+                      select new
+                      {
+                          EPT.IdAsignatura,
+                          EPT.IdPlaneacion,
+                          EPT.IdCompetencia,
+                          EPT.IdTema,
+                          EPT.Observaciones,
+                          EPT.Activo,
+                          EPT.Borrado,
+                          EPT.FechaReg,
+                          EPT.FechaUltMod,
+                          EPT.UsuarioMod,
+                          EPT.UsuarioReg,
+                          ap.DesCompetencia,
+                          asi.NombreCorto,
+                          pla.ReferenciaNorma
+                      };
             string result = JsonConvert.SerializeObject(res);
             return Content(result, "application/json");
         }

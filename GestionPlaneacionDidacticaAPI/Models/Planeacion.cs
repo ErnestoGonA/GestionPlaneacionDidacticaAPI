@@ -83,6 +83,7 @@ namespace GestionPlaneacionDidacticaAPI.Models
         public string UsuarioReg { get; set; }
         public DateTime FechaUltMod { get; set; }
         public string UsuarioMod {get; set; }
+        public string Activo { get; set; }
         public string Borrado { get; set; }
     }
     public class eva_planeacion_temas_competencias

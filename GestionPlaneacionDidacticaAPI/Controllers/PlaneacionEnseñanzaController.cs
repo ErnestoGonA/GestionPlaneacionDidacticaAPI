@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GestionPlaneacionDidacticaAPI.Data;
-using GestionPlaneacionDidacticaAPI.Models;
+using GestionPlaneacionDidacticaAPI.AlterMod;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +12,8 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
 {
     public class PlaneacionEnsenanzaController : Controller
     {
-        private readonly DBContext _context;
-        public PlaneacionEnsenanzaController(DBContext context)
+        private readonly AlterDBContext _context;
+        public PlaneacionEnsenanzaController(AlterDBContext context)
         {
             _context = context;
         }
@@ -44,9 +44,41 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
             return Content(result, "application/json");
         }
 
-        [Route("api/PlaneacionEnseñanzaExtended")]
+        [Route("api/PlaneacionEnseñanzaExtended/{IdAsignatura}/{IdPlaneacion}/{IdTema}/{IdCompetencia}")]
         [HttpGet]
-        public ContentResult GetPlaneacionEnsenanzaExtended()
+        public ContentResult GetPlaneacionEnsenanzaExtended(short IdAsignatura, int IdPlaneacion, short IdTema, int IdCompetencia)
+        {
+            var res = from eptc in _context.eva_planeacion_temas_competencias 
+                      join ept in _context.eva_planeacion_temas on new { eptc.IdTema, eptc.IdPlaneacion, eptc.IdAsignatura } equals new { ept.IdTema, ept.IdPlaneacion, ept.IdAsignatura }
+                      join ep in _context.eva_planeacion on new { ept.IdPlaneacion, ept.IdAsignatura } equals new { ep.IdPlaneacion, ep.IdAsignatura }
+                      join eca in _context.eva_cat_asignaturas on new { ep.IdAsignatura } equals new { eca.IdAsignatura }
+                      join ecc in _context.eva_cat_competencias on new { eptc.IdCompetencia } equals new { ecc.IdCompetencia }
+                      where eptc.IdAsignatura.Equals(IdAsignatura) && eptc.IdPlaneacion.Equals(IdPlaneacion) && eptc.IdTema.Equals(IdTema) && eptc.IdCompetencia.Equals(IdCompetencia) && eptc.IdCompetencia.Equals(IdCompetencia)
+                      select new
+                      {
+                          eptc.FechaReg,
+                          eptc.UsuarioReg,
+                          eptc.FechaUltMod,
+                          eptc.UsuarioMod,
+                          eptc.Activo,
+                          eptc.Borrado,
+                          eptc.IdAsignatura,
+                          eca.DesAsignatura,
+                          eptc.IdPlaneacion,
+                          ep.ReferenciaNorma,
+                          eptc.IdTema,
+                          ept.DesTema,
+                          eptc.IdCompetencia,
+                          ecc.DesCompetencia
+                      };
+
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
+        }
+
+        [Route("api/PlaneacionEnseñanzaExtended2")]
+        [HttpGet]
+        public ContentResult GetPlaneacionEnsenanzaExtended2()
         {
             var res = from epe in _context.eva_planeacion_enseñanza
                       join ecae in _context.eva_cat_actividades_enseñanza on epe.IdActividadEnseñanza equals ecae.IdActividadEnseñanza
@@ -88,6 +120,7 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                Console.WriteLine(planeacion);
                 _context.eva_planeacion_enseñanza.Add(planeacion);
                 _context.SaveChanges();
                 return new ObjectResult("Correcto!");
@@ -189,6 +222,21 @@ namespace GestionPlaneacionDidacticaAPI.Controllers
                 return new ObjectResult("Actualizacion Completa");
             }
             return BadRequest();
+
+        }
+
+        [HttpGet]
+        [Route("api/ActividadEnseñanza")]
+        public IActionResult GetActividadEnseñanza()
+        {
+            var res = from ac in _context.eva_cat_actividades_enseñanza.ToList()
+                      select new
+                      {
+                          ac.IdActividadEnseñanza,
+                          ac.DesActividadEnseñanza
+                      };
+            string result = JsonConvert.SerializeObject(res);
+            return Content(result, "application/json");
 
         }
 
